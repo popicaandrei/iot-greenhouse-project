@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class GreenhouseService {
 
     public WeatherApiPayload getWeatherInfo() {
         log.info("Getting the data from external API");
-        WeatherApiPayload =  weatherClient.getCurrentWeather("46.7712", "23.6236", this.apiKey, "metric");
+        return weatherClient.getCurrentWeather("46.7712", "23.6236", this.apiKey, "metric");
     }
 
     @Transactional

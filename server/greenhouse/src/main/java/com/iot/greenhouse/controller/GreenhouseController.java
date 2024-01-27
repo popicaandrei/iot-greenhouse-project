@@ -22,13 +22,13 @@ public class GreenhouseController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void submitForm(@RequestBody GreenhouseMonitor greenhouseMonitor) {
+    public void saveMonitor(@RequestBody GreenhouseMonitor greenhouseMonitor) {
         greenhouseService.saveMonitor(greenhouseMonitor);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<GreenhouseMonitor> getAllForms(@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate) {
+    public List<GreenhouseMonitor> getGreenhouseMonitors(@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate) {
        return greenhouseService.getAllMonitorsBefore(fromDate);
     }
 

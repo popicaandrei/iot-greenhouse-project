@@ -26,4 +26,4 @@ server:
     include-stacktrace: never
 
 weather:
-  apiKey: 2e299e44d2a112fb436ac1e31ef50bfd
+  apiKey: changeme
