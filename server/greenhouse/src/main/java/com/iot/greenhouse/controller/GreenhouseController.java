@@ -1,5 +1,6 @@
 package com.iot.greenhouse.controller;
 
+import com.iot.greenhouse.client.WeatherApiPayload;
 import com.iot.greenhouse.model.GreenhouseMonitor;
 import com.iot.greenhouse.service.GreenhouseService;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,11 @@ public class GreenhouseController {
     @ResponseStatus(HttpStatus.OK)
     public List<GreenhouseMonitor> getAllForms(@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate) {
        return greenhouseService.getAllMonitorsBefore(fromDate);
+    }
+
+    @GetMapping("/weather")
+    @ResponseStatus(HttpStatus.OK)
+    public WeatherApiPayload getWeatherInfo() {
+        return greenhouseService.getWeatherInfo();
     }
 }
