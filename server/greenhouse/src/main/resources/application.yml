@@ -12,6 +12,14 @@ spring:
     username: postgres
     password: password
     driverClassName: org.postgresql.Driver
+  rabbitmq:
+    host: localhost
+    port: 5672
+    password: guest
+    username: guest
+    exchange: iot.exchange
+    queue: iot.queue
+    routingkey: iot.routingkey
 
 server:
   error:
