@@ -14,5 +14,4 @@ public class EventPayload {
     private String eventName;
     private Double temperature;
     private Double humidity;
-    private Date timestamp;
 }

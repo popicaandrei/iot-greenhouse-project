@@ -3,10 +3,7 @@ package com.iot.greenhouse.service;
 import com.iot.greenhouse.client.WeatherClient;
 import com.iot.greenhouse.messaging.EventPayload;
 import com.iot.greenhouse.messaging.RabbitClient;
-import com.iot.greenhouse.model.CommandLog;
-import com.iot.greenhouse.model.DesiredState;
-import com.iot.greenhouse.model.GreenhouseMonitor;
-import com.iot.greenhouse.model.WeatherApiDto;
+import com.iot.greenhouse.model.*;
 import com.iot.greenhouse.repository.CommandLogRepository;
 import com.iot.greenhouse.repository.DesiredStateRepository;
 import com.iot.greenhouse.repository.GreenhouseRepository;
@@ -21,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import static com.iot.greenhouse.util.Constants.LATITUDE;
 import static com.iot.greenhouse.util.Constants.LONGITUDE;
@@ -81,21 +77,16 @@ public class GreenhouseService {
         return WeatherMapper.convertToForecastDtoList(weatherClient.getWeatherForecast(LATITUDE, LONGITUDE, this.apiKey, UNITS));
     }
 
-
-    // true is starting the fans
-    // false is stoping them
     @Transactional
     public void interpretMonitorData(EventPayload monitorEvent) {
         GreenhouseMonitor currentState = EventMapper.convertMessagePayload(monitorEvent);
         DesiredState desiredState = this.getLatestDesiredState();
 
         boolean command = calculateCommand(desiredState, currentState);
-        CommandLog commandLog = new CommandLog(command);
-
-        rabbitClient.sendToFeedbackTopic(commandLog);
+        rabbitClient.sendToFeedbackTopic(new SwitchEvent(command));
 
         saveMonitor(currentState);
-        saveLog(commandLog);
+        saveLog(new CommandLog(command));
     }
 
     private boolean calculateCommand(DesiredState desiredState, GreenhouseMonitor currentState) {
