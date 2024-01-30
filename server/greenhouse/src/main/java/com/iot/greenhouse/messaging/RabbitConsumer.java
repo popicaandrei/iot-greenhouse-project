@@ -15,13 +15,12 @@ import org.springframework.stereotype.Component;
 public class RabbitConsumer {
     public final GreenhouseService greenhouseService;
 
-    @RabbitListener(queues = {"${spring.rabbitmq.queue}"})
+    @RabbitListener(queues = {"${spring.rabbitmq.rbp.queue}"})
     public void receive(Message<EventPayload> message) {
         try {
             greenhouseService.interpretMonitorData(message.getPayload());
             log.info("Event: {} received from the IoT system");
         } catch (Exception ex) {
-            log.error("Could not consume event");
             throw new RuntimeException("Event listener error");
         }
     }

@@ -25,18 +25,14 @@ public class RabbitConfig {
     String password;
     @Value("${spring.rabbitmq.rbp.queue}")
     private String queue;
-    @Value("${spring.rabbitmq.feedback.queue}")
-    private String queueFeedback;
-
     @Value("${spring.rabbitmq.rbp.exchange}")
     private String exchange;
-
     @Value("${spring.rabbitmq.rbp.routingkey}")
     private String routingkey;
-
+    @Value("${spring.rabbitmq.feedback.queue}")
+    private String queueFeedback;
     @Value("${spring.rabbitmq.feedback.exchange}")
     private String exchangeFeedback;
-
     @Value("${spring.rabbitmq.feedback.routingkey}")
     private String routingkeyFeedback;
 
