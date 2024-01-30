@@ -27,6 +27,11 @@ public class CommandLog {
     @Column(nullable = true)
     private Date timestamp;
 
+    public CommandLog(boolean commandSwitch) {
+        this.heaterSwitch = commandSwitch;
+        this.fanSwitch = commandSwitch;
+    }
+
     @PrePersist
     private void onCreate() {
         timestamp = new Date(System.currentTimeMillis());

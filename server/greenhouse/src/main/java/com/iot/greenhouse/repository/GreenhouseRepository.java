@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GreenhouseRepository extends JpaRepository<GreenhouseMonitor, Integer> {
@@ -14,5 +15,5 @@ public interface GreenhouseRepository extends JpaRepository<GreenhouseMonitor, I
     List<GreenhouseMonitor> findAllByTimestampAfter(Date timeBefore);
 
     @Query("SELECT g FROM GreenhouseMonitor g ORDER BY g.timestamp DESC")
-    GreenhouseMonitor findLastRecord();
+    Optional<GreenhouseMonitor> findLastRecord();
 }
