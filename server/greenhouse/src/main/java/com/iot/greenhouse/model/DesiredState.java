@@ -18,10 +18,10 @@ public class DesiredState {
         private Integer id;
 
         @Column
-        private Double desiredTemperature;
+        private Double temperature;
 
         @Column
-        private Double desiredHumidity;
+        private Double humidity;
 
         @Temporal(TemporalType.TIMESTAMP)
         @Column(nullable = true)
