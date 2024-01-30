@@ -3,7 +3,11 @@ package com.iot.greenhouse.service;
 import com.iot.greenhouse.client.WeatherApiPayload;
 import com.iot.greenhouse.client.WeatherClient;
 import com.iot.greenhouse.messaging.EventPayload;
+import com.iot.greenhouse.model.CommandLog;
+import com.iot.greenhouse.model.DesiredState;
 import com.iot.greenhouse.model.GreenhouseMonitor;
+import com.iot.greenhouse.repository.CommandLogRepository;
+import com.iot.greenhouse.repository.DesiredStateRepository;
 import com.iot.greenhouse.repository.GreenhouseRepository;
 import com.iot.greenhouse.util.EventMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +26,8 @@ import java.util.List;
 public class GreenhouseService {
 
     public final GreenhouseRepository greenhouseRepository;
+    public final CommandLogRepository commandLogRepository;
+    public final DesiredStateRepository desiredStateRepository;
     private final WeatherClient weatherClient;
 
     @Value("${weather.apiKey}")
@@ -29,6 +35,14 @@ public class GreenhouseService {
 
     public GreenhouseMonitor saveMonitor(GreenhouseMonitor monitor) {
         return greenhouseRepository.save(monitor);
+    }
+
+    public DesiredState saveDesiredState(DesiredState desiredState) {
+        return desiredStateRepository.save(desiredState);
+    }
+
+    public CommandLog saveLog(CommandLog commandLog) {
+        return commandLogRepository.save(commandLog);
     }
 
     public List<GreenhouseMonitor> getAllMonitorsBefore(Date fromDate) {
