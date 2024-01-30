@@ -8,18 +8,24 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: jdbc:postgresql://localhost:5433/postgres
-    username: postgres
-    password: password
+    url: changeme
+    username: changeme
+    password: changeme
     driverClassName: org.postgresql.Driver
   rabbitmq:
-    host: localhost
+    host: changeme
     port: 5672
-    password: guest
-    username: guest
-    exchange: iot.exchange
-    queue: iot.queue
-    routingkey: iot.routingkey
+    password: changeme
+    username: changeme
+    rbp:
+      exchange: iot.exchange
+      queue: iot.queue
+      routingkey: iot.routingkey
+    feedback:
+      exchange: iot.feedback.exchange
+      queue: iot.feedback.queue
+      routingkey: iot.feedback.routingkey
+
 
 server:
   error:
