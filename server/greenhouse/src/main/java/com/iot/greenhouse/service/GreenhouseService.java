@@ -1,24 +1,28 @@
 package com.iot.greenhouse.service;
 
-import com.iot.greenhouse.client.WeatherApiPayload;
 import com.iot.greenhouse.client.WeatherClient;
 import com.iot.greenhouse.messaging.EventPayload;
 import com.iot.greenhouse.model.CommandLog;
 import com.iot.greenhouse.model.DesiredState;
 import com.iot.greenhouse.model.GreenhouseMonitor;
+import com.iot.greenhouse.model.WeatherApiDto;
 import com.iot.greenhouse.repository.CommandLogRepository;
 import com.iot.greenhouse.repository.DesiredStateRepository;
 import com.iot.greenhouse.repository.GreenhouseRepository;
 import com.iot.greenhouse.util.EventMapper;
+import com.iot.greenhouse.util.WeatherMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import static com.iot.greenhouse.util.Constants.LATITUDE;
+import static com.iot.greenhouse.util.Constants.LONGITUDE;
+import static com.iot.greenhouse.util.Constants.UNITS;
 
 @Service
 @RequiredArgsConstructor
@@ -49,10 +53,24 @@ public class GreenhouseService {
         return greenhouseRepository.findAllByTimestampAfter(fromDate);
     }
 
-    public WeatherApiPayload getWeatherInfo() {
-        log.info("Getting the data from external API");
-        return weatherClient.getCurrentWeather("46.7712", "23.6236", this.apiKey, "metric");
+    public GreenhouseMonitor getLastMonitor() {
+        return greenhouseRepository.findLastRecord();
     }
+
+    public List<CommandLog> getAllCommands() {
+        return commandLogRepository.findAll();
+    }
+
+    public WeatherApiDto getWeatherInfo() {
+        log.info("Getting the weather from external API");
+        return WeatherMapper.convertToDto(weatherClient.getCurrentWeather(LATITUDE, LONGITUDE, this.apiKey, UNITS));
+    }
+
+    public List<WeatherApiDto> getWeatherForecast() {
+        log.info("Getting the forecast from external API for next 5 days");
+        return WeatherMapper.convertToForecastDtoList(weatherClient.getWeatherForecast(LATITUDE, LONGITUDE, this.apiKey, UNITS));
+    }
+
 
     @Transactional
     public void interpretMonitorData(EventPayload monitorEvent) {
