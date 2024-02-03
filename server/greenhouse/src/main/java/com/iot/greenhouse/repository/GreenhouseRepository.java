@@ -14,6 +14,6 @@ public interface GreenhouseRepository extends JpaRepository<GreenhouseMonitor, I
 
     List<GreenhouseMonitor> findAllByTimestampAfter(Date timeBefore);
 
-    @Query("SELECT g FROM GreenhouseMonitor g ORDER BY g.timestamp DESC")
+    @Query("SELECT DISTINCT g FROM GreenhouseMonitor g ORDER BY g.timestamp DESC LIMIT 1")
     Optional<GreenhouseMonitor> findLastRecord();
 }

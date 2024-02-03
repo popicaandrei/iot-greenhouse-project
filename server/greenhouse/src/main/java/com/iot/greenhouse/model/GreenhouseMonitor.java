@@ -9,7 +9,6 @@ import java.util.Date;
 @Table
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class GreenhouseMonitor {
@@ -30,5 +29,10 @@ public class GreenhouseMonitor {
     @PrePersist
     private void onCreate() {
         timestamp = new Date(System.currentTimeMillis());
+    }
+
+    public GreenhouseMonitor(Double temperature, Double humidity) {
+        this.temperature = temperature;
+        this.humidity = humidity;
     }
 }

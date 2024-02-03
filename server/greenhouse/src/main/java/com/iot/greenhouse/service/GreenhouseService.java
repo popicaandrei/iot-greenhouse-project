@@ -7,7 +7,6 @@ import com.iot.greenhouse.model.*;
 import com.iot.greenhouse.repository.CommandLogRepository;
 import com.iot.greenhouse.repository.DesiredStateRepository;
 import com.iot.greenhouse.repository.GreenhouseRepository;
-import com.iot.greenhouse.util.EventMapper;
 import com.iot.greenhouse.util.WeatherMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -79,21 +78,29 @@ public class GreenhouseService {
 
     @Transactional
     public void interpretMonitorData(EventPayload monitorEvent) {
-        GreenhouseMonitor currentState = EventMapper.convertMessagePayload(monitorEvent);
+        GreenhouseMonitor currentState = new GreenhouseMonitor(monitorEvent.getTemperature(), monitorEvent.getHumidity());
         DesiredState desiredState = this.getLatestDesiredState();
+        log.info("Interpreting new data from greenhouse with temperature {} and humidity {}, desired temperature: {}", currentState.getTemperature(), currentState.getHumidity(), desiredState.getTemperature());
 
-        boolean command = calculateCommand(desiredState, currentState);
-        rabbitClient.sendToFeedbackTopic(new SwitchEvent(command));
+        CommandLog commandLog = calculateCommand(desiredState.getTemperature(), currentState.getTemperature());
+        rabbitClient.sendToFeedbackTopic(new SwitchEvent(commandLog.isHeaterSwitch(), commandLog.isFanSwitch()));
+        log.info("Sent new command to greenhouse: heater {}, fan {}", commandLog.isHeaterSwitch(), commandLog.isFanSwitch());
 
         saveMonitor(currentState);
-        saveLog(new CommandLog(command));
+        saveLog(commandLog);
+        log.info("Saved new current state, temp: {}", currentState.getTemperature());
     }
 
-    private boolean calculateCommand(DesiredState desiredState, GreenhouseMonitor currentState) {
-        Double diff = Math.abs(desiredState.getTemperature() - currentState.getTemperature());
+    private CommandLog calculateCommand(Double desiredTemp, Double currentTemp) {
+        boolean heaterSwitch = false;
+        boolean fanSwitch = false;
 
-        if (diff >= 3) return true;
-        else if (diff <= 0.5) return false;
-        return false;
+        if (desiredTemp <= currentTemp) heaterSwitch = false;
+        else if (desiredTemp >= currentTemp + 3) heaterSwitch = true;
+
+        if (desiredTemp >= currentTemp) fanSwitch = false;
+        else if (desiredTemp <= currentTemp - 3) fanSwitch = true;
+
+        return new CommandLog(heaterSwitch, fanSwitch);
     }
 }

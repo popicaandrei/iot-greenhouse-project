@@ -18,10 +18,10 @@ public class RabbitConsumer {
     @RabbitListener(queues = {"${spring.rabbitmq.rbp.queue}"})
     public void receive(Message<EventPayload> message) {
         try {
+            log.info("New Greenhouse event received with temperature: " + message.getPayload().getTemperature());
             greenhouseService.interpretMonitorData(message.getPayload());
-            log.info("Event: {} received from the IoT system");
         } catch (Exception ex) {
-            throw new RuntimeException("Event listener error");
+            throw new RuntimeException("Event listener error: " + ex);
         }
     }
 }

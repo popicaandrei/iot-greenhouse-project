@@ -27,9 +27,9 @@ public class CommandLog {
     @Column(nullable = true)
     private Date timestamp;
 
-    public CommandLog(boolean commandSwitch) {
-        this.heaterSwitch = commandSwitch;
-        this.fanSwitch = commandSwitch;
+    public CommandLog(boolean heaterSwitch, boolean fanSwitch) {
+        this.heaterSwitch = heaterSwitch;
+        this.fanSwitch = fanSwitch;
     }
 
     @PrePersist

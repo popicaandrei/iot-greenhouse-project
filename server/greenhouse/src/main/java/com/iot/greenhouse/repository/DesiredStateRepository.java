@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface DesiredStateRepository extends JpaRepository<DesiredState, Integer> {
 
-    @Query("SELECT g FROM GreenhouseMonitor g ORDER BY g.timestamp DESC")
+    @Query("SELECT DISTINCT g FROM DesiredState g ORDER BY g.timestamp DESC LIMIT 1")
     Optional<DesiredState> findLastDesiredState();
 }

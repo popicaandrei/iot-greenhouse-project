@@ -7,8 +7,8 @@ public class SwitchEvent {
     private boolean heaterSwitch;
     private boolean fanSwitch;
 
-    public SwitchEvent(boolean command) {
-        this.heaterSwitch = command;
-        this.fanSwitch = command;
+    public SwitchEvent(boolean heaterSwitch, boolean fanSwitch) {
+        this.heaterSwitch = heaterSwitch;
+        this.fanSwitch = fanSwitch;
     }
 }
