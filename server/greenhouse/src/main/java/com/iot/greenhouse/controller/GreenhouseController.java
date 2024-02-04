@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/greenhouse")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @Slf4j
 public class GreenhouseController {
