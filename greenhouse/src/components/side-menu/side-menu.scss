@@ -1,0 +1,54 @@
+@import "../../styles.scss";
+
+.sidemenu {
+  background-color: $background-menu;
+
+  height: 100%;
+  width: 15%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  border-right: 1px solid $color-black;
+
+  &--item {
+    height: 120px;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: $color-white;
+    font-size: 24px;
+
+    user-select: none;
+
+    &--active {
+      background-color: $background-selected-item;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &--trademark {
+    height: 120px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $color-green;
+
+    border-right: 1px solid $color-black;
+
+    color: $color-black;
+    font-size: 15px;
+
+    &--logo {
+      height: 100px;
+    }
+  }
+}

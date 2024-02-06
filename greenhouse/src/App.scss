@@ -1,0 +1,53 @@
+@import "./styles.scss";
+
+.app {
+  display: flex;
+  height: 100vh;
+
+  flex-direction: column;
+
+  &--content {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    &--page {
+      width: 85%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+.chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  &--container {
+    width: 55vw;
+  }
+}
+
+.double-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height: 100%;
+  &--container {
+    width: 40vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &--text {
+      font-size: 42px;
+      font-weight: 700;
+      color: $color-white;
+    }
+  }
+}

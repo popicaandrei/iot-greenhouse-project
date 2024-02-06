@@ -1,0 +1,28 @@
+$background-page: rgb(28, 28, 28);
+$background-menu: rgb(32, 32, 32);
+$background-selected-item: rgb(48, 48, 48);
+
+$color-white: rgb(255, 255, 255);
+$color-black: rgb(0, 0, 0);
+
+$light-blue: rgb(65, 193, 234);
+$color-green: rgb(80, 255, 122);
+$color-pink: rgb(245, 0, 141);
+
+body,
+head {
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  margin: 0;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $background-page;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
